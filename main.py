@@ -4,7 +4,8 @@ from pydantic import BaseModel
 import requests
 import json
 import datetime
-from pysondb import db
+from tinydb import TinyDB, Query
+from tinydb import where
 
 app = FastAPI()
 
@@ -20,27 +21,29 @@ async def root(data: InputsPost):
 
 @app.post('/show_data')
 async def show_data(data_in: InputsPost):
-    database = db.getDb('weather_data.json')
+    database = TinyDB('weather_data.json')
     # weather request
     response = requests.get(
         "http://api.openweathermap.org/data/2.5/weather?id=" + "3439525" + "&appid=b2626a09f300fa0361d32b9ef5b208ff&units=metric")
     # create the dict with weather data
     weather_report = {
         'localtime': json.dumps(str(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))),
-        'user_id': data_in.id,
-        'locals': [{
-            'local_id': 3439525,
-            'temp_c': response.json()['main']['temp'],
-            'humidity': response.json()['main']['humidity']
-        }]}
+        'userID': data_in.id,
+        'locals': [
+            {
+                'local_id': 3439525,
+                'temp_c': response.json()['main']['temp'],
+                'humidity': response.json()['main']['humidity']
+            }]}
+
     add_data = {
         'local_id': 3439525,
         'temp_c': response.json()['main']['temp'],
         'humidity': response.json()['main']['humidity']
-    }
-    weather_report['locals'].append(add_data)
-    database.add(weather_report)
+                }
+    weather_report.get('locals').append(add_data)
+    database.insert(weather_report)
 
-    database = db.getDb('weather_data.json')
-    print(database)
-    return None
+    ident = Query()
+    return database.search(ident.userID == 1)
+
