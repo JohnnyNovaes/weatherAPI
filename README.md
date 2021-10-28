@@ -1,7 +1,7 @@
 # 1 Weather API :sunny: :umbrella: :cloud: :snowflake:
 
-The Weather API is use to colect the weather data from multiple places.
-You'll have acess to the humidity and temperature instantaneos of the places.
+The Weather API is used to collect the weather data from multiple places.
+You'll have access to the humidity and temperature instantaneous of the places.
 
 
 # 2 Quick Tour
@@ -10,24 +10,24 @@ You'll have acess to the humidity and temperature instantaneos of the places.
 <img src="https://www.docker.com/sites/default/files/d8/styles/role_icon/public/2019-07/horizontal-logo-monochromatic-white.png?itok=SBlK2TGU" alt="alt text" width="125"/> <img src="https://openweathermap.org/themes/openweathermap/assets/img/logo_white_cropped.png" alt="alt text" width="125"/>
 
 
-This project use the tecnolgies above to make all work. For the database was used the [TinyDB](https://tinydb.readthedocs.io/en/latest/) to manager a simple json file that save the weather data for each request.
+This project uses the technologies above to make all work. For the database was used the [TinyDB](https://tinydb.readthedocs.io/en/latest/) to manage a simple JSON file that saves the weather data for each request.
 
-To make the API was use the [FastAPI](https://fastapi.tiangolo.com/). A web framework for building fast and reliable API's.
+To make the API was using the [FastAPI](https://fastapi.tiangolo.com/). A web framework for building fast and reliable APIs.
 
 For the weather data was use the [OpenWeather](https://openweathermap.org/api) API.
 
-In this project, since the API make requests for 168 cities was use the [AIOHTTP](https://docs.aiohttp.org/en/stable/) for asynchonous HTTP requests.
+In this project, since the API make requests for 168 cities was use the [AIOHTTP](https://docs.aiohttp.org/en/stable/) for asynchronous HTTP requests.
 
-In the end, to make all very easy to work with as used the already know [Docker](docker) to make isolated enviroments that can be executed in any machine!
+In the end, to make it all very easy to work with as used the already known [Docker](docker) to make isolated environments that can be executed in any machine!
 
 ### 2.1 POST and GET
-This API has a simple functionality. For the **GET** it recevies the User ID for the POST request and return the amount of cities alredy completed.
-The **POST** request returns the json database file with the user ID and the weather data of the 168 cities.
+This API has simple functionality. For the **GET** it receives the User ID for the POST request and returns the number of cities already completed.
+The **POST** request returns the JSON database file with the user ID and the weather data of the 168 cities.
 
 # 3 How to run it
-Follow the next steps very carryful.
+Follow the next steps very careful.
 
-**1°** Clone the repositore to your desktop.
+**1°** Clone the repository to your desktop.
 
 `git clone https://github.com/JohnnyNovaes/weatherAPI.git`
 
@@ -43,4 +43,4 @@ Follow the next steps very carryful.
 
 `docker run -d --name mycontainer -p 80:80 myimage`
 
-**6°** Type into your browser: https://0.0.0.0/docs
+**6°** Type into your browser: **0.0.0.0/docs**.
