@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import json
 import datetime
-from tinydb import TinyDB, Query
+from tinydb import TinyDB, Query, where
 import aiohttp
 import asyncio
 
@@ -15,14 +15,12 @@ class InputsPost(BaseModel):
 
 
 @app.get("/")
-async def root(data_in):
+async def root(data_in: int):
     # build or create json database
-    database = TinyDB('weather_data.json')
-    input_user = Query()
-
-
-    return database.search(input_user.userID == int(data_in))
-
+    database = TinyDB('progress.json')
+    User = Query()
+    progress = database.search(User.userID == data_in)
+    return progress[0]['progress']
 
 @app.post('/show_data')
 def show_data(data_in: InputsPost):
@@ -95,6 +93,5 @@ async def build_database(data_in):
                     percent = (len(weather_report.get('locals'))/167)*100
                     User = Query()
                     progress_base.update({'progress': percent}, User.userID == data_in.id)
-
 
         database.insert(weather_report)
