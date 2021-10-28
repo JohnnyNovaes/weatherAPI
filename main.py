@@ -5,7 +5,7 @@ import datetime
 from tinydb import TinyDB, Query
 import aiohttp
 import asyncio
-from tqdm.asyncio import trange, tqdm
+
 
 app = FastAPI()
 
@@ -19,6 +19,7 @@ async def root(data_in):
     # build or create json database
     database = TinyDB('weather_data.json')
     input_user = Query()
+
 
     return database.search(input_user.userID == int(data_in))
 
@@ -72,6 +73,13 @@ async def build_database(data_in):
                                 'temp_c': response['main']['temp'],
                                 'humidity': response['main']['humidity']
                             }]}
+                    # progress database
+                    progress_base = TinyDB('progress.json')
+                    percent = (len(weather_report.get('locals'))/167)*100
+                    progress = {'userID': data_in.id, 'progress': percent}
+                    progress_base.insert(progress)
+
+                    # set flag
                     flag = False
                 else:
                     add_data = {
@@ -82,4 +90,11 @@ async def build_database(data_in):
                     # append new local to weather_report
                     weather_report.get('locals').append(add_data)
 
-    database.insert(weather_report)
+                    # safe progress
+                    progress_base = TinyDB('progress.json')
+                    percent = (len(weather_report.get('locals'))/167)*100
+                    User = Query()
+                    progress_base.update({'progress': percent}, User.userID == data_in.id)
+
+
+        database.insert(weather_report)
