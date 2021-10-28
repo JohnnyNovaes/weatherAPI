@@ -52,8 +52,11 @@ async def build_database(data_in):
     database = TinyDB('weather_data.json')
 
     # load list of cities IDs
-    with open('cities.txt', 'rb') as open_file:
-        city_ids = json.load(open_file)
+    try:
+        with open('cities.txt', 'rb') as open_file:
+            city_ids = json.load(open_file)
+    except FileNotFoundError:
+        raise HTTPException(status_code=401, detail="There is no cities.txt file!")
 
     # all cities weather data
     flag = True
